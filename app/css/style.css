@@ -1,0 +1,55 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.room{
+  height: 800px;position: relative;
+}
+
+.room form{
+  position: absolute;bottom:0;width:100%;
+}
+
+.room form input{
+  border:0;
+  padding:15px 10px;
+  height:auto;
+  margin-right: .5%;
+}
+.room form button{
+  width: 14%;padding:15px 12px;border:none;
+}
+#messages { list-style-type: none; margin: 0; padding: 0;}
+#messages li {
+  padding: 5px 10px;
+  display: flex;
+}
+#messages li.sender{
+  flex-direction: row-reverse;
+}
+#messages li.sender img{
+  margin-left: 10px;
+}
+#messages li.receiver{
+  flex-direction: row;
+}
+#messages li.receiver img{
+  margin-right: 10px;
+}
+#messages li div{
+  padding:10px;
+  border-radius: 10px;
+}
+#messages li.sender div{
+  background: greenyellow;
+  max-width:200px;
+}
+#messages li.receiver div{
+  background: #eeeeee;
+  max-width:200px;
+}
