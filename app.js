@@ -22,8 +22,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'app')));
 
-app.use('/', routes);
-app.use('/users', users);
+//app.use('/', routes);
+//app.use('/users', users);
+
+app.use(function(req,res,next){   // 除了静态文件的请求以外,其他所有的HTTP请求,都会输出index.html文件,服务器端不关心路由,所有路由逻辑均给浏览器端的AngularJS去处理。
+  res.sendFile('./app/index.html')
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
