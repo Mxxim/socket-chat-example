@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-
-var app = require('../app');
+var appJS = require('../app');
+var app = appJS.app;
 var debug = require('debug')('socket-chat-app:server');
 var http = require('http');
 
@@ -20,7 +20,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-require('../socketIO.js')(server);
+require('../controllers/socketIO.js')(server,appJS.sessionStore);
 
 /**
  * Listen on provided port, on all network interfaces.

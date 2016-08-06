@@ -11,21 +11,28 @@
                 <div>Sammy</div>
             </div>
         </div>
-        <div class="panel panel-default room" style="width: 80%">
+        <div class="panel panel-default room" style="width: 80%" auto-scroll-to-bottom>
             <div class="panel-body room-content">
                 <ul id="messages">
-                    <li class="sender">
-                        <img src="images/avatar.jpg" width="50" height="50"><div>sdfsf</div>
+                    <li ng-class="m.style" ng-repeat="m in messages">
+                        <img src="{{m.img}}" width="50" height="50">
+                        <div>{{m.data}}</div>
                     </li>
-                    <li class="receiver">
-                        <img src="images/avatar.png" width="50" height="50"><div>sdfsf</div>
-                    </li>
+                    <!--<li class="sender">-->
+                        <!--<img src="images/avatar.jpg" width="50" height="50"><div>sdfsf</div>-->
+                    <!--</li>-->
+                    <!--<li class="receiver">-->
+                        <!--<img src="images/avatar.png" width="50" height="50"><div>sdfsf</div>-->
+                    <!--</li>-->
                 </ul>
-                <form class="form-inline message-creator">
+                <form class="form-inline message-creator" ng-controller="MessageCreatorCtrl">
                     <div class="form-group" style="width:82%;">
-                        <input required class="form-control message-input" style="width: 100%" placeholder="Ctrl+Enter to quick send"/>
+                        <textarea required class="form-control message-input" style="width: 100%"
+                                  placeholder="Ctrl+Enter to quick send" ng-model="newMessage" ctrl-enter-to-send="createMessage()">
+
+                        </textarea>
                     </div>
-                    <button class="btn btn-primary">Send</button>
+                    <button class="btn btn-primary" ng-click="createMessage()">Send</button>
                 </form>
             </div>
         </div>

@@ -7,8 +7,9 @@ var config = require('./config');
 
 module.exports = function(){
 
-    var db = mongoose.connect(config.mongodb);
+    mongoose.connect(config.mongodb);
+    // var db = mongoose.createConnection(config.mongodb);
 
-    return db;
+    return mongoose.connection;
 
-}
+};

@@ -3,15 +3,15 @@
  */
 
 angular.module('starter.controllers',[])
-    .controller('loginCtrl',['$scope','$state',
-        function($scope,$state){
+    .controller('loginCtrl',['$scope','$state','loginService',
+        function($scope,$state,loginService){
             console.log("--------------------------------------");
-            $scope.signin = function(){
-                $state.go('main.chat');
-            }
-
-            $scope.signup = function(){
-                $state.go('main.register');
+            $scope.enterRoom = function(){
+                loginService.login($scope.user.email,function(user){
+                    $state.go('main.chat');
+                },function(){
+                    $state.go('main.login');
+                });
             }
         }
     ])
@@ -28,5 +28,19 @@ angular.module('starter.controllers',[])
             socket.on('messageAdded',function(message){
                   $socpe.messages.push(message);
             });
+        }
+    ])
+    .controller('MessageCreatorCtrl',['$scope','socket',
+        function($scope,socket){
+            $scope.newMessage = "";
+
+            $scope.createMessage = function(){
+                if($scope.newMessage == ""){
+                    return;
+                }
+
+                socket.emit('createMessage',$scope.newMessage);
+                $scope.newMessage = "";
+            }
         }
     ]);

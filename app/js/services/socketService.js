@@ -3,10 +3,10 @@
  */
 
 angular.module('starter.services',[])
-    .factory('socket',function($rootScope){
+    .factory('socket',['$rootScope',function($rootScope){
         // 将socket.io封装成一个名为socket的Angular的服务
         // 这样就可以在其他组件中使用socket与服务端通信了。
-        var socket = io.connet('/');
+        var socket = io('/');
 
         return {
             on: function(eventName,callback){
@@ -28,4 +28,21 @@ angular.module('starter.services',[])
                 });
             }
         }
-    });
+    }])
+    .factory('loginService',['$resource','ENV',function($resource,ENV){
+        return {
+            login: function(email,successCbk,errorCbk){
+                $resource(ENV.api+ENV.interfase.login)
+                    .save({email:email},function(data){
+                        if(data.code == 1){
+                            successCbk(data.user);
+                        } else {
+                            errorCbk();
+                        }
+                    },function(err){
+                        console.log(err);
+                        errorCbk();
+                    });
+            }
+        }
+    }]);
