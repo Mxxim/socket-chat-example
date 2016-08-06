@@ -33,7 +33,6 @@ var walk = function(path){
         .forEach(function(file){
             var newPath = path + '/' + file;
             var stat = fs.statSync(newPath);  // fs.stat()方法用于查询文件信息
-            console.log(newPath);
             if(stat.isFile()){
                 if(/(.*)\.(js|coffee)/.test(file)){
                     require(newPath);
