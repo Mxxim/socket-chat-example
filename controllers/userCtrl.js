@@ -10,6 +10,11 @@ var gravatar = require('gravatar'); // 用于生成用户头像地址
 
 var userCtrl = {};
 
+/**
+ * 根据 ID 值查找 user
+ * @param _userId
+ * @param callback
+ */
 userCtrl.findUserById = function(_userId,callback){
     userModel
         .findOne({
@@ -17,6 +22,11 @@ userCtrl.findUserById = function(_userId,callback){
         },callback);
 };
 
+/**
+ * 根据 email 查找user,若 user 不存在,则新建一个
+ * @param email
+ * @param callback
+ */
 userCtrl.findByEmailOrCreate = function(email,callback){
 
     userModel.findOne({
@@ -40,6 +50,11 @@ userCtrl.findByEmailOrCreate = function(email,callback){
     });
 }
 
+/**
+ * 用户上线,则修改其 online 字段的值为 true
+ * @param _userId
+ * @param callback
+ */
 userCtrl.online = function(_userId,callback){
     userModel.findOneAndUpdate({
         _id: _userId
@@ -50,6 +65,11 @@ userCtrl.online = function(_userId,callback){
     },callback);
 };
 
+/**
+ * 用户下线,则修改其 online 字段的值为 false
+ * @param _userId
+ * @param callback
+ */
 userCtrl.offline = function(_userId,callback){
     userModel.findOneAndUpdate({
         _id: _userId
