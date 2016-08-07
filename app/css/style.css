@@ -34,7 +34,8 @@ a {
 
 }
 #messages li {
-  padding: 5px 10px;
+  padding: 10px;
+  position: relative;
   display: flex;
 }
 #messages li.sender{
@@ -42,6 +43,18 @@ a {
 }
 #messages li.sender img{
   margin-left: 10px;
+}
+#messages li time{
+  font-size:.7em;
+  color: silver;
+  position: absolute;
+  bottom: -10px;
+}
+#messages li.sender time{
+  right:60px;
+}
+#messages li.receiver time{
+  left:60px;
 }
 #messages li.receiver{
   flex-direction: row;

@@ -33,9 +33,9 @@ angular.module('starter.services',[])
         return {
             login: function(email,successCbk,errorCbk){
                 $resource(ENV.api+ENV.interfase.login)
-                    .save({email:email},function(data){
-                        if(data.code == 1){
-                            successCbk(data.user);
+                    .save({email:email},function(res){
+                        if(res.code == 1){
+                            successCbk(res.data);
                         } else {
                             errorCbk();
                         }

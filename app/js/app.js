@@ -2,14 +2,18 @@
  * Created by sammy on 16/8/4.
  */
 
-angular.module('starter',['ui.router','ngResource','starter.config','starter.services','starter.controllers','starter.directives'])
+angular.module('starter',['ui.router','ngResource','angularMoment','starter.config','starter.services','starter.controllers','starter.directives'])
 
-    .run(function($rootScope,$resource,$state,ENV){    // angular启动时执行,判断用户是否已登陆,若已登陆,则跳转到聊天页面,否则跳转到登陆页面
+    .run(function(amMoment,$rootScope,$resource,$state,ENV){    // angular启动时执行,判断用户是否已登陆,若已登陆,则跳转到聊天页面,否则跳转到登陆页面
+
+        // 将语言设置为中文
+        amMoment.changeLocale('zh-cn');
+
         $resource(ENV.api+ENV.interfase.validate)
-            .get({},function(data,getResponseHeaders){
-                console.log(data);
-                if(data.code == 1){
-                    $rootScope.me = data.user;
+            .get({},function(res,getResponseHeaders){
+                console.log(res);
+                if(res.code == 1){
+                    $rootScope.me = res.data;
                     $state.go('main.chat');
                 } else {
                     $state.go('main.login');

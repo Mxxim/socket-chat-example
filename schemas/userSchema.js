@@ -18,7 +18,8 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-    avatarUrl: String   // 根据用户邮箱地址计算出来的avatar头像地址
+    avatarUrl: String,   // 根据用户邮箱地址计算出来的avatar头像地址
+    online: Boolean
 });
 
 module.exports = UserSchema;

@@ -40,5 +40,31 @@ userCtrl.findByEmailOrCreate = function(email,callback){
     });
 }
 
+userCtrl.online = function(_userId,callback){
+    userModel.findOneAndUpdate({
+        _id: _userId
+    },{
+        $set: {
+            online:true
+        }
+    },callback);
+};
+
+userCtrl.offline = function(_userId,callback){
+    userModel.findOneAndUpdate({
+        _id: _userId
+    },{
+        $set: {
+            online: false
+        }
+    },callback);
+};
+
+userCtrl.getOnlineUsers = function(callback){
+    userModel.find({
+        online: true
+    },callback);
+}
+
 
 module.exports = userCtrl;

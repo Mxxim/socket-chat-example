@@ -15,6 +15,11 @@
 <script src="libs/jquery/dist/jquery.js"></script>
 <script src="libs/bootstrap/dist/js/bootstrap.js"></script>
 <script src="libs/angular/angular.js"></script>
+<!-- momentJS -->
+<script src="libs/moment/moment.js"></script>
+<script src="libs/angular-moment/angular-moment.js"></script>
+<script src="libs/moment/locale/zh-cn.js"></script>
+<!-- ui.router and ngResource -->
 <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="libs/angular-resource/angular-resource.min.js"></script>
 
@@ -23,11 +28,5 @@
 <script src="js/directives/chatDirective.js"></script>
 <script src="js/services/socketService.js"></script>
 <script src="js/controllers/socketCtrl.js"></script>
-<script type="text/javascript">
-    var socket = io('/');   // 传入socket服务的地址,"/"表示socket服务器与静态服务器是同一个
-    socket.on('connected',function(){
-        alert('connected');
-    });
-</script>
 </body>
 </html>

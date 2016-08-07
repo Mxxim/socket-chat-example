@@ -29,7 +29,14 @@ router.post('/login',function(req,res,next){
                 res.json({code:500,data:"服务端报错"});
             } else {
                 req.session._userId = user._id;
-                res.json({code:1,data:user});
+                userCtrl.online(user._id,function(err,user){
+                    if(err){
+                        console.log(err);
+                        res.json({code:500,data:"服务端报错"});
+                    } else {
+                        res.json({code:1,data:user});
+                    }
+                })
             }
         })
     } else {
@@ -38,8 +45,17 @@ router.post('/login',function(req,res,next){
 });
 
 router.get('/logout',function(req,res,next){
-    req.session._userId = null;
-    res.json({code:1});
+    var _userId = req.session._userId;
+
+    userCtrl.offline(_userId,function(err,user){
+        if(err){
+            res.json({code:500,data:"服务端报错"});
+        } else {
+            // req.session._userId = null;
+            delete req.session._userId;
+            res.json({code:1});
+        }
+    })
 });
 
 module.exports = router;

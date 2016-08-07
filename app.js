@@ -4,8 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session'); // session组件
-var MongoStore = require('connect-mongo')(session); // session组件的数据是存储在内存中的,每次服务器重启,这些数据就消失了,导致用户得重新登陆。因此使用这个中间件把session数据存储到MongoDB中,也叫做session持久化
+var session = require('express-session'); // session中间件
+var MongoStore = require('connect-mongo')(session); // session中间件的数据是存储在内存中的,每次服务器重启,这些数据就消失了,导致用户得重新登陆。因此使用这个中间件把session数据存储到MongoDB中,也叫做session持久化
 var fs = require('fs');
 
 var app = express();
