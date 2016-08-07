@@ -13,7 +13,7 @@ NodeJS v6.2 + Express v4.13 + Socket.io v1.4 + MongoDB v3.2.8<br/>
 后面有时间的话再使用ES6进行改版吧。
 <br/>
 ## Install
-首先要全局安装`bower`
+首先要全局安装`bower`：<br/>
 `npm install bower -g`
 <br/>
 `npm install`
