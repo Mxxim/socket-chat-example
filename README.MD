@@ -17,4 +17,5 @@ NodeJS v6.2 + Express v4.13 + Socket.io v1.4 + MongoDB v3.2.8<br/>
 `npm install bower -g`
 <br/>
 `npm install`
+<br/>
 `bower install`
