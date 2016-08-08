@@ -66,7 +66,8 @@ console.log(socket.request.headers.cookie);
 
 module.exports = function(server,sessionStore){
 
-    var io = require('socket.io').listen(server);  // 添加socket服务,socketIO提供的接口是基于事件的
+    // 添加socket服务,socketIO提供的接口是基于事件的
+    var io = require('socket.io').listen(server);
 
     // socket.io 验证
     authorize(io,sessionStore);
@@ -84,6 +85,14 @@ module.exports = function(server,sessionStore){
             } else {
                 // 发送 online 事件给所有已连接的客户端,除了发射这个事件的socket对应客户端外。
                 socket.broadcast.emit('online',user);
+                socket.broadcast.emit('messageAdded',{
+                    content: user.name + '进入了聊天室',
+                    creator: {
+                        _id: null,
+                        name: '系统消息'
+                    },
+                    createAt: new Date()
+                });
             }
         });
 
@@ -97,6 +106,14 @@ module.exports = function(server,sessionStore){
                 } else {
                     // 发送 offline 事件给所有已连接的客户端,除了发射这个事件的socket对应客户端外。
                     socket.broadcast.emit('offline',user);
+                    socket.broadcast.emit('messageAdded',{
+                        content: user.name + '离开了聊天室',
+                        creator: {
+                            _id: null,
+                            name: '系统消息'
+                        },
+                        createAt: new Date()
+                    });
                 }
             })
         });
@@ -142,4 +159,4 @@ module.exports = function(server,sessionStore){
             })
         });
     });
-}
+};

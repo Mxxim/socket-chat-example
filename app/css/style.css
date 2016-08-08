@@ -74,3 +74,14 @@ a {
   background: #eeeeee;
   max-width:200px;
 }
+#messages li.system div{
+  font-size:.7em;
+  color: silver;
+  text-align: center;
+}
+#messages li.system img,#messages li.system time{
+  display: none;
+}
+#messages li.system{
+  display: block;
+}

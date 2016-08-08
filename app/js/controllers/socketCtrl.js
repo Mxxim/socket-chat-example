@@ -3,8 +3,8 @@
  */
 
 angular.module('starter.controllers',[])
-    .controller('loginCtrl',['$scope','$state','$rootScope','loginService',
-        function($scope,$state,$rootScope,loginService){
+    .controller('loginCtrl',['$scope','$state','$rootScope','loginService','socket',
+        function($scope,$state,$rootScope,loginService,socket){
 
             $scope.enterRoom = function(){
                 loginService.login($scope.user.email,function(user){
@@ -14,6 +14,15 @@ angular.module('starter.controllers',[])
                     $state.go('main.login');
                 });
             }
+
+            // $scope.$watch('me',function(newVal,oldVal){
+            //     console.log(newVal);
+            //     console.log(oldVal);
+            //     if(!newVal && oldVal){
+            //         socket.emit('offline',oldVal);
+            //         console.log("---------------退出登陆--------------");
+            //     }
+            // });
         }
     ])
     .controller('RoomCtrl',['$scope','socket',
@@ -66,9 +75,11 @@ angular.module('starter.controllers',[])
             // 客户端监听 messageAdded 事件。表示新消息已经被添加进数据库,要在客户端中显示出来。
             socket.on('messageAdded',function(message){
 
-                if(userID == message.creator._id){
+                if (message.creator._id === null) {
+                    message.style = "system";
+                } else if (userID == message.creator._id) {
                     message.style = "sender";
-                }else {
+                } else {
                     message.style = "receiver"
                 }
 
