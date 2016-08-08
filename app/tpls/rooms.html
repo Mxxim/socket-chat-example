@@ -1,0 +1,50 @@
+<div class="container" style="margin-top: 100px">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form>
+                <div class="form-group">
+                    <label class="sr-only">房间名</label>
+                    <input type="input" required class="form-control" ng-change="searchRoom()" ng-model="searchKey" placeholder="搜索房间">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="room-list clearfix">
+            <li class="room-item" ng-repeat="room in rooms">
+                <div class="room-content" ng-click="enterRoom(room._id)">
+                    <h3>{{room.name}}<span class="badge pull-right">{{room.users.length}}人</span></h3>
+                    <div class="avatar-list">
+                        <span ng-repeat="user in room.users" title="{{user.name}}">
+                            <img alt="{{user.email}}" src="{{user.avatarUrl}}" class="img-rounded">
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <!--<li class="room-item">-->
+                <!--<div class="room-content">-->
+                    <!--<h3>javascript<span class="badge pull-right">1人</span></h3>-->
+                    <!--<div class="avatar-list">-->
+                        <!--<span>-->
+                            <!--<img alt="376877431@qq.com" src="//www.gravatar.com/avatar/c3e6c3859cf689d925eeee38bfe446c3" class="img-rounded">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                            <!--<img alt="376877431@qq.com" src="//www.gravatar.com/avatar/c3e6c3859cf689d925eeee38bfe446c3" class="img-rounded">-->
+                        <!--</span>-->
+                        <!--<span>-->
+                            <!--<img alt="376877431@qq.com" src="//www.gravatar.com/avatar/c3e6c3859cf689d925eeee38bfe446c3" class="img-rounded">-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+    <div class="row no-room" ng-show="rooms.length == 0 && searchKey">
+        <form class="form-inline no-room-form">
+            <div class="form-group">
+                没找到你想要的房间<strong class="label label-default no-room-label">{{searchKey}}</strong>,
+                <button class="btn btn-warning" ng-click="createRoom()">单击创建</button>
+            </div>
+        </form>
+    </div>
+</div>

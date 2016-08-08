@@ -2,9 +2,9 @@
  * Created by sammy on 16/8/6.
  */
 
-//var userModel = require('../models/userModel.js');
-var mongoose = require('mongoose');
-var userModel = mongoose.model('User');
+var userModel = require('../models/userModel.js');
+//var mongoose = require('mongoose');
+//var userModel = mongoose.model('User');
 // var async = require('async');
 var gravatar = require('gravatar'); // 用于生成用户头像地址
 
@@ -84,7 +84,23 @@ userCtrl.getOnlineUsers = function(callback){
     userModel.find({
         online: true
     },callback);
-}
+};
+
+/**
+ * 用户进入房间
+ * @param join
+ * @param callback
+ */
+userCtrl.joinRoom = function(join,callback){
+    userModel.findOneAndUpdate({
+        _id: join.user._id
+    },{
+        $set: {
+            online: true,
+            _roomId: join.roomId
+        }
+    },callback);
+};
 
 
 module.exports = userCtrl;

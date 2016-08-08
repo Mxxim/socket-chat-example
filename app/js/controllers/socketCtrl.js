@@ -6,10 +6,10 @@ angular.module('starter.controllers',[])
     .controller('loginCtrl',['$scope','$state','$rootScope','loginService','socket',
         function($scope,$state,$rootScope,loginService,socket){
 
-            $scope.enterRoom = function(){
+            $scope.login = function(){
                 loginService.login($scope.user.email,function(user){
                     $rootScope.me = user;
-                    $state.go('main.chat');
+                    $state.go('main.rooms');
                 },function(){
                     $state.go('main.login');
                 });
@@ -105,4 +105,53 @@ angular.module('starter.controllers',[])
                 $scope.newMessage = "";
             }
         }
-    ]);
+    ])
+    .controller('RoomsCtrl',['$scope','$state','socket',
+        function($scope,$state,socket){
+
+            var _rooms = [];    // 用于保存原始数据
+            $scope.searchKey = "";
+            $scope.rooms = [];
+
+            $scope.searchRoom = function(){
+                if ($scope.searchKey) {
+                    $scope.rooms = _rooms.filter(function(room){
+                        return room.name.indexOf($scope.searchKey) > -1;
+                    });
+                } else {
+                    $scope.rooms = _rooms;
+                }
+            };
+
+            $scope.enterRoom = function(_id){
+                socket.emit('joinRoom',{
+                    user: $scope.me,
+                    roomId: _id
+                });
+            };
+
+            $scope.createRoom = function(){
+                socket.emit('createRoom',$scope.searchKey);
+            };
+
+            socket.on('roomAdded',function(room){
+                _rooms.push(room);
+                $scope.searchRoom();
+            });
+
+            socket.once('joinRoom.' + $scope.me._id,function(join){
+                $state.go('main.room',{_roomId:join.roomId});
+            });
+            socket.on('joinRoom',function(join){
+                $scope.rooms.forEach(function(room){
+                    if(room._id == join.roomId){
+                        room.users.push(join.user);
+                    }
+                });
+            });
+
+            socket.emit('getAllRooms');
+            socket.on('roomsData',function(roomsData){
+                $scope.rooms = _rooms = roomsData;
+            });
+        }]);

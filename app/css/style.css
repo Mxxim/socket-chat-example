@@ -85,3 +85,22 @@ a {
 #messages li.system{
   display: block;
 }
+
+/*房间列表*/
+.room-list{
+  list-style-type: none;
+}
+.no-room-label{
+  margin: 0 10px;
+  padding: 5px 8px;
+}
+.room-content h3{
+  color:white
+}
+.avatar-list img{
+  margin:10px;
+}
+.no-room{
+  color: red;
+  margin-left: 20px;
+}

@@ -14,7 +14,7 @@ angular.module('starter',['ui.router','ngResource','angularMoment','starter.conf
                 console.log(res);
                 if(res.code == 1){
                     $rootScope.me = res.data;
-                    $state.go('main.chat');
+                    $state.go('main.rooms');
                 } else {
                     $state.go('main.login');
                 }
@@ -49,8 +49,18 @@ angular.module('starter',['ui.router','ngResource','angularMoment','starter.conf
                     }
                 }
             })
-            .state('main.chat',{
-                url: "/chat",
+            .state('main.rooms',{
+                url: "/rooms",
+                views: {
+                    'main@main': {
+                        templateUrl: 'tpls/rooms.html',
+                        controller: 'RoomsCtrl'
+                    }
+                }
+
+            })
+            .state('main.room',{
+                url: "/rooms/:_roomId",
                 views: {
                     'main@main': {
                         templateUrl: 'tpls/main.html',

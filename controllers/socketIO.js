@@ -10,6 +10,7 @@ var async = require('async');
 
 var userCtrl = require('./userCtrl.js');
 var messageCtrl = require('./messageCtrl.js');
+var roomCtrl = require('./roomCtrl.js');
 
 
 /**
@@ -46,17 +47,22 @@ console.log(socket.request.headers.cookie);
                         next(new Error('get session failed!'));
                     } else {
 
-                        // 把这个 session 值放到 socket.request.session 中,方便后面使用
-                        socket.request.session = session;
-                        if(session._userId){
-                            next();
-                        } else {
-                            next(new Error('not authorized'));
+                        if(!session){
+                            next('No session');
+                        } else{
+                            // 把这个 session 值放到 socket.request.session 中,方便后面使用
+                            socket.request.session = session;
+                            if(session._userId){
+                                next();
+                            } else {
+                                next(new Error('not authorized'));
+                            }
                         }
                     }
                 });
+            } else {
+                next('No session');
             }
-            next('No session');
         } else {
             next('No cookie');
         }
@@ -155,6 +161,50 @@ module.exports = function(server,sessionStore){
                 } else {
                     // 服务端向所有客户端广播 messageAdded,表示有新的消息添加进来
                     io.emit('messageAdded',message);
+                }
+            })
+        });
+
+        // 监听 createRoom 事件。
+        socket.on('createRoom',function(name){
+            roomCtrl.create(name,function(err,room){
+                if (err) {
+                    console.log(err);
+                    socket.emit('err',{msg:err});
+                } else {
+                    io.emit('roomAdded',room);
+                }
+            })
+        });
+
+        // 监听 getAllRooms 事件。
+        socket.on('getAllRooms',function(){
+            roomCtrl.read(function(err,roomsData){
+                if (err) {
+                    console.log(err);
+                    socket.emit('err',{msg:err});
+                } else {
+                    socket.emit('roomsData',roomsData);
+                }
+            });
+        });
+
+        // 监听 joinRoom 事件
+        socket.on('joinRoom',function(join){
+            userCtrl.joinRoom(join,function(err){
+                if (err) {
+                    console.log(err);
+                    socket.emit('err',{msg:err});
+                } else {
+                    socket.join(join.roomId);
+                    socket.emit('joinRoom.' + join.user._id,join);
+                    socket.in(join.roomId).broadcast.emit('messageAdded',{
+                        content: join.user.name + '进入了聊天室',
+                        creator: "系统消息",
+                        createAt: new Date(),
+                        _id: ObjectId()
+                    });
+                    socket.in(join.roomId).broadcast.emit('joinRoom',join);
                 }
             })
         });

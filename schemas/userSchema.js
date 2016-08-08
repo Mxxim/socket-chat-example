@@ -4,7 +4,8 @@
 
 var mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
 
 // 定义字段的数据模型
 
@@ -19,7 +20,8 @@ var UserSchema = new Schema({
         required: true
     },
     avatarUrl: String,   // 根据用户邮箱地址计算出来的avatar头像地址
-    online: Boolean
+    online: Boolean,
+    _roomId: ObjectId
 });
 
 module.exports = UserSchema;
