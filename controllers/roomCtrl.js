@@ -4,6 +4,7 @@
 
 var roomModel = require('../models/roomModel.js');
 var userModel = require('../models/userModel.js');
+var messageModel = require('../models/messageModel.js');
 var async = require('async');
 
 var roomCtrl = {};
@@ -52,5 +53,52 @@ roomCtrl.read = function(callback){
         });
 };
 
+/**
+ * 根据房间ID并行读取房间信息,包括房间、在线用户列表、消息列表
+ * @param _roomId
+ * @param callback
+ */
+roomCtrl.getById = function(_roomId,callback){
+    roomModel.findOne({
+        _id: _roomId
+    },function(err,room){
+        if (err) {
+            callback(err);
+        } else {
+            async.parallel([
+                function(done){
+                    userModel.find({
+                        _roomId: _roomId,
+                        online: true
+                    },function(err,users){
+                        done(err,users);
+                    });
+                },
+                function(done){
+                    messageModel
+                        .find({
+                            _roomId: _roomId
+                        })
+                        .sort({
+                            createAt: 1
+                        })
+                        .limit(20)
+                        .exec(function(err,messages){
+                            done(err,messages);
+                        });
+                }
+            ],function(err,results){
+                if (err) {
+                    callback(err);
+                } else {
+                    var room = room.toObject();
+                    room.users = results[0];
+                    room.messages = results[1];
+                    callback(null,room);
+                }
+            });
+        }
+    });
+}
 
 module.exports = roomCtrl;

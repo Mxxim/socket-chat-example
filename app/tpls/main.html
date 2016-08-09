@@ -2,15 +2,16 @@
     <div class="col-md-12" style="display: flex;flex-direction: row">
         <div class="list-group" style="width:20%;height: 800px;background: white">
             <div class="panel-heading" style="background: #eeeeee">当前在线人数:{{count}}人</div>
-            <div class="list-group-item" style="display: flex;flex-direction: row" ng-repeat="user in users">
+            <div class="list-group-item" style="display: flex;flex-direction: row" ng-repeat="user in room.users">
                 <img src="{{user.avatarUrl}}?s=50">&emsp;
                 <div>{{user.name}}</div>
             </div>
         </div>
         <div class="panel panel-default room" style="width: 80%" auto-scroll-to-bottom>
+            <div class="panel-heading room-header">{{room.name}}</div>
             <div class="panel-body room-content">
                 <ul id="messages">
-                    <li ng-class="m.style" ng-repeat="m in messages track by $index">
+                    <li ng-class="m.style" ng-repeat="m in room.messages track by $index">
                         <img src="{{m.creator.avatarUrl}}?s=50" title="{{m.creator.name}}">
                         <div>{{m.content}}</div>
                         <time am-time-ago="m.createAt"></time>

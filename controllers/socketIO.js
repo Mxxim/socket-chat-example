@@ -178,15 +178,30 @@ module.exports = function(server,sessionStore){
         });
 
         // 监听 getAllRooms 事件。
-        socket.on('getAllRooms',function(){
-            roomCtrl.read(function(err,roomsData){
-                if (err) {
-                    console.log(err);
-                    socket.emit('err',{msg:err});
-                } else {
-                    socket.emit('roomsData',roomsData);
-                }
-            });
+        socket.on('getAllRooms',function(data){
+
+            // 若有参数,则返回指定房间。若无参数,则返回所有房间。
+            if(data && data._roomId){
+                roomCtrl.getById(data._roomId,function(err,room){
+                    if (err) {
+                        console.log(err);
+                        socket.emit('err',{msg:err});
+                    } else {
+                        socket.emit('roomData.' + data._roomId,room);
+                    }
+                });
+            } else {
+                roomCtrl.read(function(err,roomsData){
+                    if (err) {
+                        console.log(err);
+                        socket.emit('err',{msg:err});
+                    } else {
+                        socket.emit('roomsData',roomsData);
+                    }
+                });
+            }
+
+
         });
 
         // 监听 joinRoom 事件
