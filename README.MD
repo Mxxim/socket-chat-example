@@ -1,9 +1,9 @@
 # 基于 NodeJS + MongoDB + Socket.io + AngularJS 的聊天室应用
-<br/>
+
 NodeJS v6.2 + Express v4.13 + Socket.io v1.4 + MongoDB v3.2.8<br/>
 使用`gravatar`来关联邮箱和头像。因此进入聊天室,只需要输入邮箱即可。
-<br/>
-一直想要实现的一个聊天室应用,功能比较简单:<br/>
+
+一直想要实现的一个聊天室应用,功能比较简单:
 - 使用`gravatar`来关联邮箱和头像。因此进入聊天室,只需要输入邮箱登陆即可。
 - 发送新消息,实时聊天。
 - 自动登陆
@@ -12,11 +12,12 @@ NodeJS v6.2 + Express v4.13 + Socket.io v1.4 + MongoDB v3.2.8<br/>
 
 功能还在增加中。
 后面有时间的话再使用ES6进行改版吧。
-<br/>
+```bash
 ## Install
-首先要全局安装`bower`：<br/>
-`npm install bower -g`
-<br/>
-`npm install`
-<br/>
-`bower install`
+npm install bower -g
+
+npm install
+
+bower install
+```
+
